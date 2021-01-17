@@ -1,20 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import TaskList
+from .models import Tutorial
  
-def todolist(request): 
-   all_tasks = TaskList.objects.all
-   return render(request, 'todolist.html', {'all_tasks':all_tasks})
+def homepage(request): 
+   all_tasks = Tutorial.objects.all
+   return render(request, 'homepage.html', {'all_tasks':all_tasks})
 
 
 def delete_task(request):
-    return render(request, 'todolist.html', {})
+    return render(request, 'homepage.html', {})
 
 def complete_task(request):
-    return render(request, 'todolist.html', {})
+    return render(request, 'homepage.html', {})
 
 def pending_task(request):
-    return render(request, 'todolist.html', {})
+    return render(request, 'homepage.html', {})
 
 def edit_task(request):
     return render(request, 'edit.html', {})
