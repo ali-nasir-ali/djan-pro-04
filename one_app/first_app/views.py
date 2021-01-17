@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import TaskList
  
-# Create your views here.
 def todolist(request): 
    all_tasks = TaskList.objects.all
    return render(request, 'todolist.html', {'all_tasks':all_tasks})
