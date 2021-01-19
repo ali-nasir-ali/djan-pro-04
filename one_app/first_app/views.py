@@ -62,7 +62,7 @@ def login_request(request):
 
 #-----------------------
 def delete_task(request):
-    return render(request, 'homepage.html', {})
+    return render(request, 'homenpage.html', {})
 
 def complete_task(request):
     return render(request, 'homepage.html', {})
