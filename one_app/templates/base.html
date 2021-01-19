@@ -1,7 +1,7 @@
-<html>
-
-<head>
-    {% load static %}
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
     <!--Import Google Icon Font-->
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <!--Import materialize.css-->
@@ -14,40 +14,55 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="{% static "css/materialize.css" %}">
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>    
+
      <nav>
-     <div class="nav-wrapper">
+    <div class="nav-wrapper">
      <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><a href="/">home page</a></li>
       <li><a href="{% url 'admin:index' %}">Community</a></li>
         {% if user.is_authenticated %}
              <li><a href="/account">{{user.username|title}}</a></li>
-             <li><a href="{% url 'register' %}">Register</a></li>
-            <li><a href="/">Logout</a></li>
+             <li><a href="">Logout</a></li>
         {% else %}
-            <li><a href="/">Login</a></li>
-            <li><a href="{% url 'register' %}">Register</a></li>
+            <li><a href="">Login</a></li>
+            <li><a href="/register">Register</a></li>
         {% endif %}
-        </ul>
-        </div>
-        </nav>
+        {% if user.is_authenticated %}
+   <div class="form-inline my-2 my-lg-0">
+     <div class="p-s bg-dark mr-2 text-white">LOG IN as {{ user.username }}</div>
+     <a href="{% url 'logout' %} ">
+     <button class="btn btn-info my-2 my-sm-0" type="submit">LOG OUT</button></a>
+   </div>
+  {% else %}
+   <a href="{% url 'login' %} ">
+        <button class="btn btn-success mr-2 my-2 my-sm-0" type="submit">LOG IN</button></a>
+    <a href="{% url 'register' %} ">
+        <button class="btn btn-primary my-2 my-sm-0" type="submit">REGISTER</button></a>
+  {% endif %} 
+      </ul>
+    </div>
+</nav>
+
 </head>
 
+     <script>M.toast({html: "tosssted", classess: 'RED rounded', displayLength:2000});</script>
 
 <body>
 
-  
-  {% include 'nav.html' %}
-  {% include 'messaging.html' %}
+    <div class="container">
+      {% include 'messaging.html' %}
+    </div>
+    
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-  <div class="container">
-    {% block content %}
-    {% endblock %}
-  </div>
 </body>
 
-<!-- Prism JS -->
-<script src="{% static "tinymce/js/prism.js" %}"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
-   
-  </html>
+  <!-- Prism JS -->
+  <script src="{% static "tinymce/js/prism.js" %}"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+     
+</html>
