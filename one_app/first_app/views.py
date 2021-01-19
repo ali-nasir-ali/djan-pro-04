@@ -1,11 +1,38 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
 from .models import Tutorial
- 
-def homepage(request): 
-   all_tasks = Tutorial.objects.all
-   return render(request, 'homepage.html', {'all_tasks':all_tasks})
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import logout, authenticate, login
+from django.contrib import messages
 
+
+# Create your views here.
+def homepage(request):
+    return render(request = request,
+                  template_name='homepage.html',
+                  context = {"tutorials":Tutorial.objects.all})
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"New account created: {username}")
+            login(request, user)
+            return redirect("main:homepage")
+
+        else:
+            for msg in form.error_messages:
+                messages.error(request, f"{msg}: {form.error_messages[msg]}")
+
+            return render(request = request,
+                          template_name = "register.html",
+                          context={"form":form})
+
+    form = UserCreationForm
+    return render(request = request,
+                  template_name = "register.html",
+                  context={"form":form})
 
 def delete_task(request):
     return render(request, 'homepage.html', {})
@@ -19,11 +46,6 @@ def pending_task(request):
 def edit_task(request):
     return render(request, 'edit.html', {})
 
-def index(request):
-   context = {
-       'welcome_text':"welcome from index."
-   }
-   return render(request, 'index.html', context)
  
 def about(request):
    context = {
